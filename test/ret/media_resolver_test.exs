@@ -9,7 +9,7 @@ defmodule Ret.MediaResolverTest do
   end
 
   test "media resolver errors when requesting non-existent hosts, or hosts without a public dns" do
-    :error = Ret.MediaResolver.resolve(%Ret.MediaResolverQuery{url: "http://hubs.local:3000/foo"})
+    :error = Ret.MediaResolver.resolve(%Ret.MediaResolverQuery{url: "http://localhost:3000/foo"})
     :error = Ret.MediaResolver.resolve(%Ret.MediaResolverQuery{url: "http://localhost:4000/foo"})
     :error = Ret.MediaResolver.resolve(%Ret.MediaResolverQuery{url: "https://missing.example.com/"})
   end

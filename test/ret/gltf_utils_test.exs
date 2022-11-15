@@ -196,7 +196,7 @@ defmodule Ret.GLTFUtilsTest do
   @original_file "test/fixtures/test.glb"
   @replaced_file "test/fixtures/replaced.glb"
   @reversed_file "test/fixtures/reversed.glb"
-  @old_url "https://hubs.local"
+  @old_url "https://localhost"
   @new_url "https://new-domain.local"
   test "encrypted replace" do
     # This test uses store_and_replace_in_glb_file so that the entire storage flow is exercised, including encryption,

@@ -1,7 +1,7 @@
 defmodule Ret.Application do
   use Application
   import Cachex.Spec
-
+  require Logger
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -18,7 +18,8 @@ defmodule Ret.Application do
         # Note the main Repo database is used here, since the session locking database
         # name may be a proxy database in pgbouncer which doesn't actually exist.
         db_name = Application.get_env(:ret, Ret.Repo)[:database]
-
+        Logger.info("db_name is: #{db_name}")
+        Logger.info("db_name is: #{Application.get_env(:ret, Ret.Repo)[:hostname]}")
         # Can't check mix_env here, so check db name
         if db_name !== "ret_test" do
           coturn_enabled = Ret.Coturn.enabled?()
@@ -29,13 +30,21 @@ defmodule Ret.Application do
             Ecto.Adapters.SQL.query!(Ret.SessionLockRepo, "CREATE SCHEMA IF NOT EXISTS coturn")
           end
 
+          Ecto.Adapters.SQL.query(Ret.SessionLockRepo,"SELECT boot_val,reset_val
+          FROM pg_settings
+          WHERE name='listen_addresses'",[])
+
+          Ecto.Adapters.SQL.query(Ret.SessionLockRepo,"SELECT *
+          FROM pg_settings
+          WHERE name = 'port'",[])
+
           Ecto.Adapters.SQL.query!(
             Ret.SessionLockRepo,
             "ALTER DATABASE #{db_name} SET search_path TO ret0"
           )
 
           priv_path = Path.join(["#{:code.priv_dir(:ret)}", "repo", "migrations"])
-
+          Logger.info("priv_path: #{priv_path}");
           # Disallow stop of the application via SIGTERM until migrations are finished.
           #
           # If application is killed mid-migration, then it's possible for schema migrations

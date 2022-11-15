@@ -31,7 +31,7 @@ client_secret = "bar"
 [db]
 username = "admin"
 password = "admin"
-hostname = "localhost"
+hostname = "db"
 database = "ret_dev"
 template = "template0"
 port = 5432

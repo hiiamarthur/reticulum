@@ -40,7 +40,7 @@ config :ret, Ret.Repo,
   username: "postgres",
   password: "postgres",
   database: "ret_production",
-  hostname: "localhost",
+  hostname: "db",
   template: "template0",
   pool_size: 10
 
@@ -48,7 +48,7 @@ config :ret, Ret.SessionLockRepo,
   username: "postgres",
   password: "postgres",
   database: "ret_production",
-  hostname: "localhost",
+  hostname: "db",
   template: "template0",
   pool_size: 10
 
@@ -154,7 +154,7 @@ config :ret, Ret.Locking,
     username: "postgres",
     password: "postgres",
     database: "ret_production",
-    hostname: "localhost"
+    hostname: "db"
   ]
 
 config :ret, Ret.JanusLoadStatus, janus_port: 443

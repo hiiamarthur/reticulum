@@ -6,7 +6,7 @@ defmodule Ret.SceneTest do
   import Ret.TestHelpers,
     only: [create_account: 1, create_owned_file: 2, generate_temp_owned_file: 1]
 
-  @sample_domain "https://hubs.local"
+  @sample_domain "https://localhost"
 
   describe "rewrite_domain_for_all/2" do
     test "scene is rewritten" do

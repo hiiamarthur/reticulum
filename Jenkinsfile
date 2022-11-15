@@ -56,7 +56,7 @@ pipeline {
             def retPoolIcon = retPool == 'earth' ? ':earth_americas:' : ':new_moon:'
 
             def text = (
-              "*<http://localhost:8080/job/${jobName}/${buildNumber}|#${buildNumber}>* *${jobName}* " +
+              "*<http://host.docker.internal:8080/job/${jobName}/${buildNumber}|#${buildNumber}>* *${jobName}* " +
               "<https://bldr.habitat.sh/#/pkgs/${packageIdent}|${packageIdent}>\n" +
               "<https://github.com/mozilla/reticulum/commit/$gitSha|$gitSha> " +
               "Reticulum -> ${retPoolIcon} `${retPool}`: ```${gitSha} ${gitMessage}```\n" +
@@ -71,7 +71,7 @@ pipeline {
 
           if (showQAPromoteCommand == "true") {
             def text = (
-              "*<http://localhost:8080/job/${jobName}/${buildNumber}|#${buildNumber}>* *${jobName}* " +
+              "*<http://host.docker.internal:8080/job/${jobName}/${buildNumber}|#${buildNumber}>* *${jobName}* " +
               "<https://bldr.reticulum.io/#/pkgs/${packageIdent}|${packageIdent}>\n" +
               "<https://github.com/mozilla/reticulum/commit/$gitSha|$gitSha> " +
               "${packageIdent} built and uploaded - to promote:\n" +

@@ -8,10 +8,15 @@ services:
         volumes:
             - ./tmp/db:/var/lib/postgresql/data
     ret:
+        platform: linux/arm64
         build: .
+        stdin_open: true
+        tty: true 
         environment:
             - "DB_HOST=$DB_HOST"
-        command: bash -c "source ~/.bashrc; pushd assets; yarn; popd; mix deps.get; mix ecto.create; mix ecto.migrate; mix phx.server"
+        # command: /bin/bash -c "compgen -c; source ~/.bashrc; pushd assets; yarn; popd; mix deps.get; mix ecto.create; mix ecto.migrate; mix phx.server"
+        # command: /bash -c "source /opt/ros/melodic/setup.bash; pushd assets; yarn; popd; mix deps.get; mix ecto.create; mix ecto.migrate; mix phx.server"
+        
         volumes:
             - .:/ret
         ports:

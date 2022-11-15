@@ -13,8 +13,8 @@ config :ret, RetWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-db_credentials = System.get_env("DB_CREDENTIALS") || "admin"
-db_host = System.get_env("DB_HOST") || "localhost"
+db_credentials = System.get_env("DB_CREDENTIALS") || "postgres"
+db_host = System.get_env("DB_HOST") || "db"
 
 config :ret, Ret.Repo,
   adapter: Ecto.Adapters.Postgres,
@@ -51,7 +51,7 @@ config :ret, Ret.Guardian,
   secret_key: "47iqPEdWcfE7xRnyaxKDLt9OGEtkQG3SycHBEMOuT2qARmoESnhc76IgCUjaQIwX"
 
 config :ret, Ret.Storage,
-  host: "https://hubs.local:4000",
+  host: "https://localhost:4000",
   storage_path: "storage/test",
   ttl: 60 * 60 * 24
 

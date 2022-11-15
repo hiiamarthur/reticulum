@@ -2,7 +2,7 @@ use Mix.Config
 
 # NOTE: this file contains some security keys/certs that are *not* secrets, and are only used for local development purposes.
 
-host = "hubs.local"
+host = "localhost"
 cors_proxy_host = "hubs-proxy.local"
 assets_host = "hubs-assets.local"
 link_host = "hubs-link.local"
@@ -10,7 +10,8 @@ link_host = "hubs-link.local"
 # To run reticulum across a LAN for local testing, uncomment and change the line below to the LAN IP
 # host = cors_proxy_host = "192.168.1.27"
 
-dev_janus_host = "dev-janus.reticulum.io"
+dev_janus_host = "localhost"
+# dev_janus_host = "dev-janus.reticulum.io"
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -25,13 +26,20 @@ config :ret, RetWeb.Endpoint,
     port: 4000,
     otp_app: :ret,
     cipher_suite: :strong,
-    keyfile: "#{File.cwd!()}/priv/dev-ssl.key",
-    certfile: "#{File.cwd!()}/priv/dev-ssl.cert"
+    keyfile: "#{File.cwd!()}/priv/cert/key.pem",
+    certfile: "#{File.cwd!()}/priv/cert/cert.pem"
   ],
+  # http: [
+  #   port: 4000,
+  #   otp_app: :ret,
+  #   # cipher_suite: :strong,
+  #   # keyfile: "#{File.cwd!()}/priv/cert/key.pem",
+  #   # certfile: "#{File.cwd!()}/priv/cert/cert.pem"
+  # ],
   cors_proxy_url: [scheme: "https", host: cors_proxy_host, port: 4000],
   assets_url: [scheme: "https", host: assets_host, port: 4000],
   link_url: [scheme: "https", host: link_host, port: 4000],
-  imgproxy_url: [scheme: "http", host: host, port: 5000],
+  imgproxy_url: [scheme: "https", host: host, port: 5000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -58,7 +66,7 @@ config :ret, RetWeb.Endpoint,
 
 # Watch static and templates for browser reloading.
 config :ret, RetWeb.Endpoint,
-  # static_url: [scheme: "https", host: "assets-prod.reticulum.io", port: 443],
+  static_url: [scheme: "https", host: "assets-prod.reticulum.io", port: 443],
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
@@ -146,21 +154,21 @@ config :ret, Ret.MediaResolver,
 config :ret, Ret.Speelycaptor, speelycaptor_endpoint: "https://1dhaogh2hd.execute-api.us-west-1.amazonaws.com/public"
 
 config :ret, Ret.Storage,
-  host: "https://#{host}:4000",
+  host: "https://localhost:4000",
   storage_path: "storage/dev",
   ttl: 60 * 60 * 24
 
 asset_hosts =
-  "https://localhost:4000 https://localhost:8080 " <>
-    "https://#{host}:4000 https://#{host}:8080 https://#{host}:3000 https://#{host}:8989 https://#{host}:9090 https://#{
+  "https://localhost:4000 https://localhost:8080 https://localhost:8989 https://localhost:9090 https://localhost:4000 https://localhost:8080 https://localhost:8989 https://localhost:9090 " <>
+    "https://#{host}:4000 https://#{host}:8080 https://#{host}:3000 https://#{host}:8989 https://#{host}:9090 https://localhost:8082 https://localhost:8081 https://#{
       cors_proxy_host
     }:4000 " <>
     "https://assets-prod.reticulum.io https://asset-bundles-dev.reticulum.io https://asset-bundles-prod.reticulum.io"
 
 websocket_hosts =
-  "https://localhost:4000 https://localhost:8080 wss://localhost:4000 " <>
-    "https://#{host}:4000 https://#{host}:8080 wss://#{host}:4000 wss://#{host}:8080 wss://#{host}:8989 wss://#{host}:9090 " <>
-    "wss://#{host}:4000 wss://#{host}:8080 https://#{host}:8080 https://hubs.local:8080 wss://hubs.local:8080"
+  "https://localhost:4000 https://localhost:8080 wss://localhost:4000 wss://#{host}:4443 " <>
+    "https://#{host}:4000 https://#{host}:8080 wss://#{host}:4000 wss://#{host}:8080 wss://#{host}:8989 #{host}:9090 " <>
+    "wss://#{host}:4000 wss://#{host}:8080 https://#{host}:8080 https://localhost:8080 wss://localhost:8080"
 
 config :ret, RetWeb.Plugs.AddCSP,
   script_src: asset_hosts,
@@ -176,7 +184,9 @@ config :ret, Ret.Mailer, adapter: Bamboo.LocalAdapter
 
 config :ret, RetWeb.Email, from: "info@hubs-mail.com"
 
-config :ret, Ret.PermsToken, perms_key: (System.get_env("PERMS_KEY") || "") |> String.replace("\\n", "\n")
+# config :ret, Ret.PermsToken, perms_key: (System.get_env("PERMS_KEY") || "") |> String.replace("\\n", "\n")
+config :ret, Ret.PermsToken, perms_key: "-----BEGIN RSA PRIVATE KEY-----\nMIICWwIBAAKBgQCxduH3C/1UvyNr6dNX1g7GnuZqH9+A4PF6S0szz3LsB6p2lWbQ\niv+8o668UD1JUbKN9ZkiImCcJokQ1SBuoO6gz5Iys6BCAXvUA4FAQ3zzC/CmTcVR\nWEk/5uaKDxOhKm+WWrzquSSPKcFe5Hblu6IaxZP4aPuGN1HRy0cUhnn4FwIDAQAB\nAoGAWFq9FBfHEAt94jtverrbbm4sf8fQqkTUVTPphCkTqYoDh7jIkKmzu8Kuu5kj\nej6PrHgLvt/ow7W35kaGOC4tv9KcruSd0GPooA0oPtUJF9dqdRvVvPd+ngrQPiUm\n32hg553vEBtuSEdIReAdF/QtMSVVRu2VcyD1nkd5msC+3YECQQDzXHu2LlFOuqWu\n6QohD62M11gK1SJ+xsL1jlGjDpvKpa0b2PMogM2QJtPRJKBM9SPBBlOfuJZu6vR9\nIDWy721XAkEAuq5K630GuTotznX09RYvK9ZKcDOkgM7+86orfzHO5B79pV3j4kei\nJFAR4vHMiNkYS6P+iQBmGhIOu6QAQSRTQQJAbye44dd6D8m0z5VlqQAuNvxNHHWJ\nUfqbJemhZCbSBddyoBuRxNhADC2P5iEijsQRVqL7IyL+ox7yGQzTOi2d9QJAZr3o\nI+Tin2ziqv+GeqDkA0dkHo59mhrSfH6Kg+2AxVI9HRcohXART9T1kyarACIjWfX+\n753Vk8GedC0VqsR4QQJAHoIO1F7sqASkzdSBfR4TF9iM6UHh/g32os6fdHgVyi+t\nvLgE5P79jtTX3BAcr4ahiETGGEZcy6/OnR1RQuWmaQ==\n-----END RSA PRIVATE KEY-----"
+
 
 config :ret, Ret.OAuthToken, oauth_token_key: ""
 
@@ -202,7 +212,7 @@ config :sentry,
 
 config :ret, Ret.Habitat, ip: "127.0.0.1", http_port: 9631
 
-config :ret, Ret.JanusLoadStatus, default_janus_host: dev_janus_host, janus_port: 443
+config :ret, Ret.JanusLoadStatus, default_janus_host: dev_janus_host, janus_port: 4443
 
 config :ret, Ret.RoomAssigner, balancer_weights: [{600, 1}, {300, 50}, {0, 500}]
 
@@ -213,7 +223,7 @@ config :ret, RetWeb.PageController,
 
 config :ret, Ret.HttpUtils, insecure_ssl: true
 
-config :ret, Ret.Meta, phx_host: host
+config :ret, Ret.Meta, phx_host: "localhost"
 
 config :ret, Ret.Locking,
   lock_timeout_ms: 1000 * 60 * 15,

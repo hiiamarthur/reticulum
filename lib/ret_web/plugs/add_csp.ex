@@ -103,10 +103,14 @@ defmodule RetWeb.Plugs.AddCSP do
 
     # TODO: The https janus port CSP rules (including the default) can be removed after dialog is deployed,
     # since they are used to snoop and see what SFU it is.
+    # default_janus_csp_rule =
+    #   if default_janus_host != nil && String.length(String.trim(default_janus_host)) > 0,
+    #     do: "wss://#{default_janus_host}:#{janus_port} https://#{default_janus_host}:#{janus_port}",
+    #     else: ""
     default_janus_csp_rule =
-      if default_janus_host != nil && String.length(String.trim(default_janus_host)) > 0,
-        do: "wss://#{default_janus_host}:#{janus_port} https://#{default_janus_host}:#{janus_port}",
-        else: ""
+      if default_janus_host,
+         do: "wss://#{default_janus_host}:#{janus_port} https://#{default_janus_host}:#{janus_port} https://#{default_janus_host}:#{janus_port}/meta",
+         else: ""
 
     ret_direct_connect =
       if is_subdomain do
