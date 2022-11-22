@@ -2,7 +2,7 @@ use Mix.Config
 
 # NOTE: this file contains some security keys/certs that are *not* secrets, and are only used for local development purposes.
 
-host = "localhost"
+host = "host.docker.internal"
 cors_proxy_host = "hubs-proxy.local"
 assets_host = "hubs-assets.local"
 link_host = "hubs-link.local"
@@ -20,8 +20,8 @@ dev_janus_host = "localhost"
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :ret, RetWeb.Endpoint,
-  url: [scheme: "https", host: host, port: 4000],
-  static_url: [scheme: "https", host: host, port: 4000],
+  url: [scheme: "https", host: "192.168.10.245", port: 4000],
+  static_url: [scheme: "https", host: "192.168.10.245", port: 4000],
   https: [
     port: 4000,
     otp_app: :ret,
@@ -29,17 +29,10 @@ config :ret, RetWeb.Endpoint,
     keyfile: "#{File.cwd!()}/priv/cert/key.pem",
     certfile: "#{File.cwd!()}/priv/cert/cert.pem"
   ],
-  # http: [
-  #   port: 4000,
-  #   otp_app: :ret,
-  #   # cipher_suite: :strong,
-  #   # keyfile: "#{File.cwd!()}/priv/cert/key.pem",
-  #   # certfile: "#{File.cwd!()}/priv/cert/cert.pem"
-  # ],
   cors_proxy_url: [scheme: "https", host: cors_proxy_host, port: 4000],
   assets_url: [scheme: "https", host: assets_host, port: 4000],
   link_url: [scheme: "https", host: link_host, port: 4000],
-  imgproxy_url: [scheme: "https", host: host, port: 5000],
+  imgproxy_url: [scheme: "http", host: host, port: 5000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -66,7 +59,7 @@ config :ret, RetWeb.Endpoint,
 
 # Watch static and templates for browser reloading.
 config :ret, RetWeb.Endpoint,
-  static_url: [scheme: "https", host: "assets-prod.reticulum.io", port: 443],
+  # static_url: [scheme: "https", host: "assets-prod.reticulum.io", port: 443],
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
@@ -154,21 +147,21 @@ config :ret, Ret.MediaResolver,
 config :ret, Ret.Speelycaptor, speelycaptor_endpoint: "https://1dhaogh2hd.execute-api.us-west-1.amazonaws.com/public"
 
 config :ret, Ret.Storage,
-  host: "https://localhost:4000",
+  host: "https://192.168.10.245:4000",
   storage_path: "storage/dev",
   ttl: 60 * 60 * 24
 
 asset_hosts =
-  "https://localhost:4000 https://localhost:8080 https://localhost:8989 https://localhost:9090 https://localhost:4000 https://localhost:8080 https://localhost:8989 https://localhost:9090 " <>
-    "https://#{host}:4000 https://#{host}:8080 https://#{host}:3000 https://#{host}:8989 https://#{host}:9090 https://localhost:8082 https://localhost:8081 https://#{
+  "https://localhost:4000 https://localhost:8080 https://localhost:8989 https://localhost:9090 https://192.168.10.245:4000 https://192.168.10.245:8080 https://192.168.10.245:8989 https://192.168.10.245:9090 " <>
+    "https://#{host}:4000 https://#{host}:8080 https://#{host}:3000 https://#{host}:8989 https://#{host}:9090 https://#{
       cors_proxy_host
     }:4000 " <>
-    "https://assets-prod.reticulum.io https://asset-bundles-dev.reticulum.io https://asset-bundles-prod.reticulum.io"
+    "https://assets-prod.reticulum.io https://asset-bundles-dev.reticulum.io https://asset-bundles-prod.reticulum.io https://raw.githubusercontent.com https://hubs.mozilla.com"
 
 websocket_hosts =
-  "https://localhost:4000 https://localhost:8080 wss://localhost:4000 wss://#{host}:4443 " <>
+  "https://localhost:4000 https://localhost:8080 wss://localhost:4000 wss://localhost:8989 wss://#{host}:4443 " <>
     "https://#{host}:4000 https://#{host}:8080 wss://#{host}:4000 wss://#{host}:8080 wss://#{host}:8989 #{host}:9090 " <>
-    "wss://#{host}:4000 wss://#{host}:8080 https://#{host}:8080 https://localhost:8080 wss://localhost:8080"
+    "wss://#{host}:4000 wss://#{host}:8080 https://#{host}:8080 https://localhost:8080 wss://localhost:8080 wss://192.168.10.245:4000 wss://192.168.10.245:8080 wss://192.168.10.245:8989 wss://192.168.10.245:9090 https://192.168.10.245:3000"
 
 config :ret, RetWeb.Plugs.AddCSP,
   script_src: asset_hosts,
@@ -223,7 +216,7 @@ config :ret, RetWeb.PageController,
 
 config :ret, Ret.HttpUtils, insecure_ssl: true
 
-config :ret, Ret.Meta, phx_host: "localhost"
+config :ret, Ret.Meta, phx_host: "192.168.10.245"
 
 config :ret, Ret.Locking,
   lock_timeout_ms: 1000 * 60 * 15,

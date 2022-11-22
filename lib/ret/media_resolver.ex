@@ -119,7 +119,7 @@ defmodule Ret.MediaResolver do
         :error
 
       resolved_ip ->
-        if HttpUtils.internal_ip?(resolved_ip) do
+        if HttpUtils.internal_ip?(resolved_ip) && System.get_env("RET_HOSTED_PLATFORM") != "local" do
           :forbidden
         else
           resolve_with_ytdl(query, root_host, query |> ytdl_format(root_host))
@@ -339,7 +339,7 @@ defmodule Ret.MediaResolver do
         :error
 
       resolved_ip ->
-        if HttpUtils.internal_ip?(resolved_ip) do
+        if HttpUtils.internal_ip?(resolved_ip) && System.get_env("RET_HOSTED_PLATFORM") != "local" do
           :forbidden
         else
           fallback_to_screenshot_opengraph_or_nothing(query)

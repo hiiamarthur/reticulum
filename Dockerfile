@@ -69,6 +69,11 @@ FROM --platform=linux/arm64 arm64v8/alpine
 copy --from=certr /certs ./certs
 workdir /reticulum
 COPY . .
+RUN mkdir -p .git
+# COPY ../ ./test
+# RUN cd test && ls -a
+# RUN cd .. && ls -a
+# RUN cp -R ../ret/.git/modules/reticulum/* .git
 RUN apk upgrade \
     && apk add --no-cache bash nodejs yarn git build-base postgresql-client curl perl automake autoconf openssl-dev ncurses-dev libxslt libxml2-utils inotify-tools nano
 RUN export PATH="$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH" && \

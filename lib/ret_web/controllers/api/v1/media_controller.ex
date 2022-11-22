@@ -1,6 +1,8 @@
 defmodule RetWeb.Api.V1.MediaController do
   use RetWeb, :controller
   use Retry
+  require Logger
+
   alias Ret.Statix
 
   def create(conn, %{"media" => %{"url" => url, "quality" => quality}, "version" => version}),
@@ -83,11 +85,20 @@ defmodule RetWeb.Api.V1.MediaController do
   end
 
   defp resolve_and_render(conn, url, version, quality \\ nil) do
+
+    Logger.info("calling resolve_and_render 1")
+    Logger.info("param: #{inspect(conn)}, #{inspect(url)} , #{inspect(version)}, #{inspect(quality)}")
     query = query_for(conn, url, version, quality)
+    Logger.info("calling resolve_and_render 2")
     value = Cachex.fetch(:media_urls, query)
+    Logger.info("calling resolve_and_render 3")
     maybe_do_telemetry(value)
+    Logger.info("calling resolve_and_render 4")
     maybe_bump_ttl(value, query)
+    Logger.info("result: #{inspect(query)} , #{inspect(value)}")
+    Logger.info("calling resolve_and_render 5")
     render_resolved_media_or_error(conn, value)
+    Logger.info("calling resolve_and_render 6")
   end
 
   defp query_for(conn, url, version, quality) do
