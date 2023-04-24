@@ -12,8 +12,8 @@ done
 
 # bin="/app/bin/ret"
 #eval "$bin eval \"Ret.Release.migrate\""   
-bash -ic "source ~/kerl/23.3/activate; mix local.hex --force; mix local.rebar --force; mix deps.get;mix deps.clean mime --build;rm -rf _build && mix compile; mix ecto.create;"
-bash -ic "source ~/kerl/23.3/activate; mix local.hex --force; mix local.rebar --force; mix deps.get;mix ecto.drop; mix ecto.create;"
-bash -ic "source ~/kerl/23.3/activate && iex -S mix phx.server"
+bash -ic "source ~/kerl/24.3/activate; mix local.hex --force; mix local.rebar --force; mix deps.update --all mix deps.get;mix deps.clean mime --build;rm -rf _build && mix compile; mix ecto.create;"
+bash -ic "source ~/kerl/24.3/activate; mix local.hex --force; mix local.rebar --force; mix deps.update --all mix deps.get;mix ecto.drop; mix ecto.create;"
+bash -ic "source ~/kerl/24.3/activate && iex -S mix phx.server"
 # start the elixir application
 # exec "$bin" "start"

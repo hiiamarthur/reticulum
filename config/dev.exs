@@ -20,8 +20,8 @@ dev_janus_host = "localhost"
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :ret, RetWeb.Endpoint,
-  url: [scheme: "https", host: "192.168.10.245", port: 4000],
-  static_url: [scheme: "https", host: "192.168.10.245", port: 4000],
+  url: [scheme: "https", host: "192.168.10.11", port: 4000],
+  static_url: [scheme: "https", host: "192.168.10.11", port: 4000],
   https: [
     port: 4000,
     otp_app: :ret,
@@ -147,23 +147,24 @@ config :ret, Ret.MediaResolver,
 config :ret, Ret.Speelycaptor, speelycaptor_endpoint: "https://1dhaogh2hd.execute-api.us-west-1.amazonaws.com/public"
 
 config :ret, Ret.Storage,
-  host: "https://192.168.10.245:4000",
+  host: "https://192.168.10.11:4000",
   storage_path: "storage/dev",
   ttl: 60 * 60 * 24
 
 asset_hosts =
-  "https://localhost:4000 https://localhost:8080 https://localhost:8989 https://localhost:9090 https://192.168.10.245:4000 https://192.168.10.245:8080 https://192.168.10.245:8989 https://192.168.10.245:9090 " <>
+  "https://localhost:4000 https://localhost:8080 https://localhost:8989 https://localhost:9090 https://192.168.10.11:4000 https://192.168.10.11:8080 https://192.168.10.11:8989 https://192.168.10.11:9090 " <>
     "https://#{host}:4000 https://#{host}:8080 https://#{host}:3000 https://#{host}:8989 https://#{host}:9090 https://#{
       cors_proxy_host
     }:4000 " <>
     "https://assets-prod.reticulum.io https://asset-bundles-dev.reticulum.io https://asset-bundles-prod.reticulum.io https://raw.githubusercontent.com https://hubs.mozilla.com"
 
 websocket_hosts =
-  "https://localhost:4000 https://localhost:8080 wss://localhost:4000 wss://localhost:8989 wss://#{host}:4443 " <>
+  "https://localhost:4000 https://localhost:8080 wss://localhost:4000 wss://localhost:8989 wss://localhost:9090 wss://#{host}:4443 " <>
     "https://#{host}:4000 https://#{host}:8080 wss://#{host}:4000 wss://#{host}:8080 wss://#{host}:8989 #{host}:9090 " <>
-    "wss://#{host}:4000 wss://#{host}:8080 https://#{host}:8080 https://localhost:8080 wss://localhost:8080 wss://192.168.10.245:4000 wss://192.168.10.245:8080 wss://192.168.10.245:8989 wss://192.168.10.245:9090 https://192.168.10.245:3000"
+    "wss://#{host}:4000 wss://#{host}:8080 https://#{host}:8080 https://localhost:8080 wss://localhost:8080 wss://192.168.10.11:4000 wss://192.168.10.11:8080 wss://192.168.10.11:8989 wss://192.168.10.11:9090 https://192.168.10.11:3000"
 
 config :ret, RetWeb.Plugs.AddCSP,
+  default_src: asset_hosts,
   script_src: asset_hosts,
   font_src: asset_hosts,
   style_src: asset_hosts,
@@ -216,7 +217,7 @@ config :ret, RetWeb.PageController,
 
 config :ret, Ret.HttpUtils, insecure_ssl: true
 
-config :ret, Ret.Meta, phx_host: "192.168.10.245"
+config :ret, Ret.Meta, phx_host: "192.168.10.11"
 
 config :ret, Ret.Locking,
   lock_timeout_ms: 1000 * 60 * 15,

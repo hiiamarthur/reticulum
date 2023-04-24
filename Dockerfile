@@ -84,9 +84,9 @@ RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf \
     && echo '. $HOME/.asdf/asdf.sh' >> $HOME/.profile
 RUN curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl && \
     chmod a+x kerl && \
-    bash -c "./kerl build 23.3 23.3 && \
-            ./kerl install 23.3 ~/kerl/23.3 && \
-            source ~/kerl/23.3/activate"
+    bash -c "./kerl build 24.3 24.3 && \
+            ./kerl install 24.3 ~/kerl/24.3 && \
+            source ~/kerl/24.3/activate"
 # RUN echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
 # RUN echo ". $HOME/.asdf/completions/asdf.bash" >> ~/.bashrc
 # USER asdf 

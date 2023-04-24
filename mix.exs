@@ -34,17 +34,17 @@ defmodule Ret.Mixfile do
   defp deps do
     [
       {:ecto_boot_migration, "~> 0.2.0"},
-      {:phoenix, "~> 1.4.0"},
-      {:phoenix_pubsub, "~> 1.1"},
-      {:phoenix_ecto, "~> 4.0"},
+      {:phoenix, "~> 1.5.0"},
+      {:phoenix_pubsub, "~> 2.0"},
+      {:phoenix_ecto, "~> 4.4"},
       {:plug, "~> 1.7"},
       # Avoid 3.4.0 for now bc https://github.com/elixir-ecto/ecto/issues/3246
       {:ecto, "~> 3.3.0"},
       {:ecto_sql, "~> 3.3.0"},
-      {:absinthe, "~> 1.4"},
+      {:absinthe, "~> 1.5"},
       {:dataloader, "~> 1.0.0"},
-      {:absinthe_plug, "~> 1.4"},
-      {:absinthe_phoenix, "~> 1.4.0"},
+      {:absinthe_plug, "~> 1.5"},
+      {:absinthe_phoenix, "~> 2.0.0"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.13"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
